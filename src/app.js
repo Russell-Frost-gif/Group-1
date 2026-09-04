@@ -1,4 +1,4 @@
-import express from 'express';
+import express from "express";
 
 const students = [ 
   { id: 1,
@@ -35,13 +35,13 @@ app.get("/students", (req, res) => {
     res.send(students);
 });
 
-app.get('/student/:id', (req, res) => {
+app.get('/students/:id', (req, res) => {
   const student = students.find(s => s.id === parseInt(req.params.id));
   if (!student) return res.status(404).send('Student not found');
   res.send(student);
 });
 
-app.post('/student', (req, res) => {
+app.post('/students', (req, res) => {
   const newStudent = {
     id: students.length ? students[students.length - 1].id + 1 : 1,
     name: req.body.name,
@@ -50,20 +50,18 @@ app.post('/student', (req, res) => {
   res.send(newStudent);
 });
 
-app.patch('/student/:id', (req, res) => {
+app.patch('/students/:id', (req, res) => {
   const student = students.find(s => s.id === parseInt(req.params.id));
   if (!student) return res.status(404).send({message: "Student not found"});
   Object.assign(student, req.body);
   res.send(student);
 });
 
-app.delete('/student/:id', (req, res) => {
+app.delete('/students/:id', (req, res) => {
   const studentIndex = students.findIndex(s => s.id === parseInt(req.params.id));
   if (studentIndex === -1) return res.status(404).send({message: "Student not found"});
   const deletedStudent = students.splice(studentIndex, 1);
   res.send(deletedStudent[0]);
 });
 
-app.listen(3000, () => {
-    console.log("listening to port 3000");
-});
+export default app;
